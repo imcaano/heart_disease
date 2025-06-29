@@ -194,6 +194,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="index.php?route=admin_appointments">
+                    <i class="fas fa-calendar-check"></i>
+                    Appointments
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="index.php?route=manage_users">
                     <i class="fas fa-users"></i>
                      Users
@@ -203,12 +209,6 @@
                 <a class="nav-link" href="index.php?route=admin_reports">
                     <i class="fas fa-file-alt"></i>
                     Reports
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?route=admin_import_dataset">
-                    <i class="fas fa-file-import"></i>
-                    Import Dataset
                 </a>
             </li>
             <li class="nav-item">

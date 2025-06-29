@@ -390,8 +390,24 @@ if (!isset($_SESSION['user'])) {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://js.puter.com/v2/"></script>
     <script>
+    // Define generateConsultation at the top so it is available everywhere
+    function generateConsultation(formData, isHighRisk) {
+        let advice = '';
+        let lifestyleTip = '';
+        if (isHighRisk) {
+            advice = 'Based on your risk factors, we strongly recommend scheduling a consultation with a cardiologist for a comprehensive evaluation.';
+            lifestyleTip = 'Consider adopting a heart-healthy diet rich in fruits, vegetables, and whole grains, and aim for at least 150 minutes of moderate exercise weekly.';
+        } else {
+            advice = 'Your current risk factors suggest a low probability of heart disease. Continue maintaining a healthy lifestyle.';
+            lifestyleTip = 'Keep up with regular exercise, maintain a balanced diet, and schedule regular check-ups with your healthcare provider.';
+        }
+        return `
+            <p><strong>Medical Advice:</strong> ${advice}</p>
+            <p><strong>Lifestyle Tip:</strong> ${lifestyleTip}</p>
+        `;
+    }
+
     $(document).ready(function() {
             // Sidebar Toggle
             $('#sidebarCollapse').on('click', function() {
@@ -459,7 +475,7 @@ if (!isset($_SESSION['user'])) {
                 if (response.success) {
                     const isHighRisk = response.prediction === 1;
                     
-                    // Save prediction to database
+                    // Save prediction to database first
                     $.ajax({
                         url: 'index.php?route=save_prediction',
                         method: 'POST',
@@ -471,72 +487,16 @@ if (!isset($_SESSION['user'])) {
                         success: function(saveResponse) {
                                     if (saveResponse.success) {
                                         console.log('Prediction saved successfully');
+                                        const predictionId = saveResponse.prediction_id;
+                                        
+                                        // Now show the result with the correct prediction ID
+                                        showPredictionResult(formData, response, predictionId, isHighRisk);
+                                    } else {
+                                        showError(resultSection, 'Failed to save prediction. Please try again.');
                                     }
-                                }
-                            });
-                            
-                            // Show prediction result
-                    resultSection.html(`
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title text-center mb-4">Prediction Result</h4>
-                                        <div class="text-center mb-4">
-                                            <h2 class="${isHighRisk ? 'text-danger' : 'text-success'}">
-                                                ${isHighRisk ? 'Positive' : 'Negative'}
-                                            </h2>
-                                        </div>
-                                        <div class="consultation-section">
-                                            <div class="consultation-header">
-                                                <i class="fas fa-stethoscope"></i>
-                                                <h5>Medical Consultation</h5>
-                                            </div>
-                                            <div id="consultationText" class="consultation-content">
-                                                <div class="text-center">
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="visually-hidden">Loading...</span>
-                                                    </div>
-                                                    <p class="mt-2">Generating consultation...</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `);
-
-                            // Get consultation using OpenRouter API
-                            const prompt = `As a medical expert, provide a single, concise sentence with the most important advice for this heart disease prediction. Do NOT repeat or list the input data. Only give one actionable medical advice point in plain English, and add a short, practical healthy lifestyle tip (such as exercise, diet, or stress).\n\n` +
-                                `Age: ${formData.age}\n` +
-                                `Sex: ${formData.sex == 1 ? 'Male' : 'Female'}\n` +
-                                `Chest Pain Type: ${formData.cp}\n` +
-                                `Resting Blood Pressure: ${formData.trestbps} mm Hg\n` +
-                                `Cholesterol: ${formData.chol} mg/dl\n` +
-                                `Fasting Blood Sugar: ${formData.fbs == 1 ? 'High (>120 mg/dl)' : 'Normal (≤120 mg/dl)'}\n` +
-                                `ECG Results: ${formData.restecg}\n` +
-                                `Maximum Heart Rate: ${formData.thalach} beats/min\n` +
-                                `Exercise Induced Angina: ${formData.exang == 1 ? 'Yes' : 'No'}\n` +
-                                `ST Depression: ${formData.oldpeak}\n` +
-                                `Slope: ${formData.slope}\n` +
-                                `Number of Major Vessels: ${formData.ca}\n` +
-                                `Thalassemia: ${formData.thal}\n\n` +
-                                `Prediction Result: ${isHighRisk ? 'High Risk' : 'Low Risk'}\n`;
-
-                            // Use OpenRouter API
-                            $.ajax({
-                                url: 'api/consultation_openrouter.php',
-                                method: 'POST',
-                                contentType: 'application/json',
-                                dataType: 'json',
-                                data: JSON.stringify({ prompt }),
-                                success: function(res) {
-                                    console.log('Consultation API response:', res);
-                                    if (res.success) {
-                                        $('#consultationText').html(res.consultation);
-                } else {
-                                        showError($('#consultationText'), res.message || 'Unable to generate consultation at this time.');
-                }
-            },
-            error: function(xhr, status, error) {
-                                    showError($('#consultationText'), 'Unable to generate consultation at this time. Please try again later.');
+                                },
+                                error: function() {
+                                    showError(resultSection, 'Failed to save prediction. Please try again.');
                                 }
                             });
                         } else {
@@ -549,6 +509,68 @@ if (!isset($_SESSION['user'])) {
                 });
             });
         });
+
+        // Function to show prediction result after saving
+        function showPredictionResult(formData, response, predictionId, isHighRisk) {
+            const resultSection = $('#resultSection');
+            
+            resultSection.html(`
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center mb-4">Prediction Result</h4>
+                        <div class="text-center mb-4">
+                            <h2 class="${isHighRisk ? 'text-danger' : 'text-success'}">
+                                ${isHighRisk ? 'Positive' : 'Negative'}
+                            </h2>
+                        </div>
+                        ${isHighRisk ? `
+                            <div class="alert alert-warning mb-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-3" style="font-size: 24px;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Medical Consultation Recommended</h5>
+                                        <p class="mb-0">Based on your prediction result, we strongly recommend scheduling a consultation with our medical experts for a thorough evaluation.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mb-4">
+                                <button class="btn btn-danger btn-lg" onclick="bookAppointment(${predictionId}, ${response.prediction})">
+                                    <i class="fas fa-calendar-plus me-2"></i>Book Consultation
+                                </button>
+                            </div>
+                        ` : `
+                            <div class="alert alert-success mb-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check-circle me-3" style="font-size: 24px;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Low Risk Result</h5>
+                                        <p class="mb-0">Your prediction indicates a low risk of heart disease. Continue maintaining a healthy lifestyle!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `}
+                        <div class="consultation-section">
+                            <div class="consultation-header">
+                                <i class="fas fa-stethoscope"></i>
+                                <h5>Medical Consultation</h5>
+                            </div>
+                            <div id="consultationText" class="consultation-content">
+                                ${generateConsultation(formData, isHighRisk)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+
+        // Function to redirect to appointment booking
+        function bookAppointment(predictionId, result) {
+            if (!predictionId || predictionId === 'null' || predictionId === 'pending') {
+                alert('Prediction data is not ready. Please try again in a moment.');
+                return;
+            }
+            window.location.href = `index.php?route=book_appointment&prediction_id=${predictionId}&result=${result}`;
+        }
     </script>
 </body>
 </html> 

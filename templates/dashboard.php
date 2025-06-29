@@ -6,6 +6,32 @@ if (!isset($_SESSION['user'])) {
     header('Location: index.php?route=login');
     exit;
 }
+
+// Check if user has appointments or positive predictions
+$user_id = $_SESSION['user']['id'];
+$hasAppointments = false;
+$hasPositivePredictions = false;
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Check for appointments
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM appointments WHERE user_id = ?");
+    $stmt->execute([$user_id]);
+    $hasAppointments = $stmt->fetchColumn() > 0;
+    
+    // Check for positive predictions
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM predictions WHERE user_id = ? AND prediction = 1");
+    $stmt->execute([$user_id]);
+    $hasPositivePredictions = $stmt->fetchColumn() > 0;
+    
+} catch (PDOException $e) {
+    // Silently handle database errors
+    error_log("Dashboard database error: " . $e->getMessage());
+}
+
+$showAppointmentsLink = $hasAppointments || $hasPositivePredictions;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,6 +135,14 @@ if (!isset($_SESSION['user'])) {
                     New Prediction
                 </a>
             </li>
+            <?php if ($showAppointmentsLink): ?>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?route=user_appointments">
+                    <i class="fas fa-calendar-check"></i>
+                    My Appointments
+                </a>
+            </li>
+            <?php endif; ?>
             <li class="nav-item">
                 <a class="nav-link" href="index.php?route=profile">
                     <i class="fas fa-user-circle"></i>
@@ -153,7 +187,14 @@ if (!isset($_SESSION['user'])) {
                                 <div class="expert-welcome-subtitle">Your trusted heart health expert portal</div>
                                 <p class="lead mb-4" style="color: #444; font-size: 1.15rem;">Get personalized insights and guidance for a healthier future. Start a new prediction or explore your profile for more details.</p>
                                 <a href="index.php?route=predict" class="expert-cta-btn">Start New Prediction <i class="fas fa-arrow-right ms-2"></i></a>
-                                <div class="expert-tip mt-4">“Prevention is better than cure. Take the first step to a healthier heart today!”</div>
+                                <?php if ($hasPositivePredictions && !$hasAppointments): ?>
+                                <div class="mt-3">
+                                    <a href="index.php?route=predict" class="btn btn-warning">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>Book Consultation (High Risk Detected)
+                                    </a>
+                                </div>
+                                <?php endif; ?>
+                                <div class="expert-tip mt-4">"Prevention is better than cure. Take the first step to a healthier heart today!"</div>
                             </div>
                         </div>
                     </div>

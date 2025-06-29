@@ -168,9 +168,14 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget _buildStatsGrid(PredictionProvider predictionProvider) {
     final stats = predictionProvider.dashboardStats;
-    final totalPredictions = stats?['total_predictions'] ?? 0;
-    final highRiskPredictions = stats?['high_risk'] ?? 0;
-    final lowRiskPredictions = stats?['low_risk'] ?? 0;
+    final totalPredictions =
+        stats?['total_predictions'] ?? stats?['totalPredictions'] ?? 0;
+    final highRiskPredictions = stats?['high_risk'] ??
+        stats?['highRiskCount'] ??
+        stats?['highRisk'] ??
+        0;
+    final lowRiskPredictions =
+        stats?['low_risk'] ?? stats?['lowRiskCount'] ?? stats?['lowRisk'] ?? 0;
     final successRate = totalPredictions > 0
         ? ((lowRiskPredictions / totalPredictions) * 100).toStringAsFixed(1)
         : '0';
@@ -190,13 +195,13 @@ class _DashboardPageState extends State<DashboardPage> {
           AppTheme.primaryColor,
         ),
         _buildStatCard(
-          'High Risk',
+          'Positive',
           highRiskPredictions.toString(),
           Icons.warning,
           AppTheme.dangerColor,
         ),
         _buildStatCard(
-          'Low Risk',
+          'Negative',
           lowRiskPredictions.toString(),
           Icons.check_circle,
           AppTheme.successColor,
@@ -378,7 +383,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget _buildPredictionTile(Prediction prediction) {
     final isHighRisk = prediction.prediction == 1;
     final riskColor = isHighRisk ? AppTheme.dangerColor : AppTheme.successColor;
-    final riskText = isHighRisk ? 'High Risk' : 'Low Risk';
+    final riskText = isHighRisk ? 'Positive' : 'Negative';
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),

@@ -240,15 +240,15 @@ switch ($route) {
                         $stmt = $pdo->prepare("
                             INSERT INTO predictions (
                                 user_id, age, sex, cp, trestbps, chol, fbs, restecg, 
-                                thalach, exang, oldpeak, slope, ca, thal, 
-                                prediction_result, confidence_score, transaction_hash
+                                thalach, exang, oldpeak, slope, ca, thal, prediction_result, 
+                                transaction_hash, confidence_score, prediction, prediction_date
                             ) VALUES (
-                                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
                             )
                         ");
                         
                         $stmt->execute([
-                            $_SESSION['user_id'] ?? 0,
+                            $_SESSION['user']['id'] ?? 0,
                             $data['age'],
                             $data['sex'],
                             $data['cp'],
@@ -263,8 +263,9 @@ switch ($route) {
                             $data['ca'],
                             $data['thal'],
                             $json_result['prediction'],
+                            '', // Empty transaction hash
                             $json_result['probability'] ?? 0.00,
-                            '' // Empty transaction hash for now
+                            $json_result['prediction'] // Set prediction column same as prediction_result
                         ]);
 
                         // Update user's total predictions count
@@ -273,14 +274,14 @@ switch ($route) {
                             SET total_predictions = total_predictions + 1 
                             WHERE id = ?
                         ");
-                        $stmt->execute([$_SESSION['user_id'] ?? 0]);
+                        $stmt->execute([$_SESSION['user']['id'] ?? 0]);
 
                         // Log the prediction activity
                         $stmt = $pdo->prepare("
                             INSERT INTO user_activity_log (user_id, activity_type, description) 
                             VALUES (?, 'prediction', 'New prediction made')
                         ");
-                        $stmt->execute([$_SESSION['user_id'] ?? 0]);
+                        $stmt->execute([$_SESSION['user']['id'] ?? 0]);
 
                     } catch (PDOException $e) {
                         error_log("Database error: " . $e->getMessage());
@@ -354,6 +355,63 @@ switch ($route) {
         }
         exit;
         
+    case 'update_profile':
+        requireLogin();
+        header('Content-Type: application/json');
+        
+        // Get POST data
+        $data = json_decode(file_get_contents('php://input'), true);
+        $username = $data['username'] ?? '';
+        $email = $data['email'] ?? '';
+        
+        // Validate input
+        if (empty($username) || empty($email)) {
+            echo json_encode(['success' => false, 'message' => 'Username and email are required']);
+            exit;
+        }
+        
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid email format']);
+            exit;
+        }
+        
+        try {
+            // Check if username already exists (excluding current user)
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
+            $stmt->execute([$username, $_SESSION['user']['id']]);
+            if ($stmt->fetch()) {
+                echo json_encode(['success' => false, 'message' => 'Username already exists']);
+                exit;
+            }
+            
+            // Check if email already exists (excluding current user)
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+            $stmt->execute([$email, $_SESSION['user']['id']]);
+            if ($stmt->fetch()) {
+                echo json_encode(['success' => false, 'message' => 'Email already exists']);
+                exit;
+            }
+            
+            // Update user information
+            $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ? WHERE id = ?");
+            $stmt->execute([$username, $email, $_SESSION['user']['id']]);
+            
+            // Update session data
+            $_SESSION['user']['username'] = $username;
+            $_SESSION['user']['email'] = $email;
+            
+            // Log activity
+            $stmt = $pdo->prepare("INSERT INTO user_activity_log (user_id, activity_type, details) VALUES (?, 'profile_update', 'Profile information updated')");
+            $stmt->execute([$_SESSION['user']['id']]);
+            
+            echo json_encode(['success' => true, 'message' => 'Profile updated successfully']);
+        } catch (PDOException $e) {
+            error_log("Profile update error: " . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'An error occurred while updating your profile']);
+        }
+        exit;
+        
     case 'logout':
         session_destroy();
         header('Location: index.php');
@@ -374,6 +432,61 @@ switch ($route) {
             exit;
         }
         require_once 'templates/admin_dashboard.php';
+        break;
+
+    case 'admin_appointments':
+        if (!isAdmin()) {
+            header('Location: index.php?route=dashboard');
+            exit;
+        }
+        require_once 'templates/admin_appointments.php';
+        break;
+
+    case 'book_appointment':
+        if (!isset($_SESSION['user'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'User not logged in']);
+                exit;
+            } else {
+                header('Location: index.php?route=login');
+                exit;
+            }
+        }
+        
+        // If POST request, process the appointment booking
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once 'api/book_appointment.php';
+        } else {
+            // If GET request, show the booking form
+            require_once 'templates/book_appointment.php';
+        }
+        break;
+
+    case 'user_appointments':
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?route=login');
+            exit;
+        }
+        require_once 'templates/user_appointments.php';
+        break;
+
+    case 'update_appointment_status':
+        if (!isAdmin()) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
+            exit;
+        }
+        require_once 'api/update_appointment_status.php';
+        break;
+
+    case 'get_appointment_details':
+        if (!isAdmin()) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
+            exit;
+        }
+        require_once 'api/get_appointment_details.php';
         break;
 
     case 'get_dashboard_data':
@@ -601,13 +714,13 @@ switch ($route) {
         break;
 
     case 'get_profile_data':
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user']['id'])) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Not logged in']);
             exit;
         }
 
-        $userId = $_SESSION['user_id'];
+        $userId = $_SESSION['user']['id'];
         
         // First check if prediction_statistics has an entry for this user
         $stmt = $pdo->prepare("
@@ -1163,7 +1276,7 @@ switch ($route) {
                         }
                         $stmt = $pdo->prepare("INSERT INTO predictions (user_id, age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, prediction_result, confidence_score) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         $stmt->execute([
-                            $_SESSION['user_id'] ?? 0,
+                            $_SESSION['user']['id'] ?? 0,
                             $values[0], $values[1], $values[2], $values[3], $values[4], $values[5], $values[6], $values[7], $values[8], $values[9], $values[10], $values[11], $values[12], $values[13], 1.0
                         ]);
                         $imported++;
@@ -1199,7 +1312,7 @@ switch ($route) {
                         }
                         $stmt = $pdo->prepare("INSERT INTO predictions (user_id, age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, prediction_result, confidence_score) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         $stmt->execute([
-                            $_SESSION['user_id'] ?? 0,
+                            $_SESSION['user']['id'] ?? 0,
                             $values[0], $values[1], $values[2], $values[3], $values[4], $values[5], $values[6], $values[7], $values[8], $values[9], $values[10], $values[11], $values[12], $values[13], 1.0
                         ]);
                         $imported++;
@@ -1225,25 +1338,79 @@ switch ($route) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             requireLogin();
             
+            header('Content-Type: application/json');
+            
             $prediction_result = $_POST['prediction_result'] ?? null;
             $prediction_data = $_POST['prediction_data'] ?? null;
+            $user_id = $_POST['user_id'] ?? $_SESSION['user']['id'];
             
             if ($prediction_result !== null && $prediction_data !== null) {
                 try {
-                    $stmt = $pdo->prepare("INSERT INTO predictions (user_id, prediction_result, prediction_data, created_at) VALUES (?, ?, ?, NOW())");
-                    $stmt->execute([
-                        $_SESSION['user_id'],
-                        $prediction_result,
-                        $prediction_data
-                    ]);
+                    // Parse the prediction data to extract individual fields
+                    $data = json_decode($prediction_data, true);
                     
-                    echo json_encode(['success' => true, 'message' => 'Prediction saved successfully']);
+                    if ($data) {
+                        // Insert with individual fields matching the exact database schema
+                        $stmt = $pdo->prepare("
+                            INSERT INTO predictions (
+                                user_id, age, sex, cp, trestbps, chol, fbs, restecg, 
+                                thalach, exang, oldpeak, slope, ca, thal, prediction_result, 
+                                transaction_hash, confidence_score, prediction, prediction_date
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                        ");
+                        
+                        $stmt->execute([
+                            $user_id,
+                            $data['age'] ?? 0,
+                            $data['sex'] ?? 0,
+                            $data['cp'] ?? 0,
+                            $data['trestbps'] ?? 0,
+                            $data['chol'] ?? 0,
+                            $data['fbs'] ?? 0,
+                            $data['restecg'] ?? 0,
+                            $data['thalach'] ?? 0,
+                            $data['exang'] ?? 0,
+                            $data['oldpeak'] ?? 0,
+                            $data['slope'] ?? 0,
+                            $data['ca'] ?? 0,
+                            $data['thal'] ?? 0,
+                            $prediction_result,
+                            '', // Empty transaction hash
+                            0.85, // Default confidence score
+                            $prediction_result // Set prediction column same as prediction_result
+                        ]);
+                        
+                        $prediction_id = $pdo->lastInsertId();
+                        
+                        // Update user's total predictions count
+                        $stmt = $pdo->prepare("
+                            UPDATE users 
+                            SET total_predictions = total_predictions + 1 
+                            WHERE id = ?
+                        ");
+                        $stmt->execute([$user_id]);
+
+                        // Log the prediction activity
+                        $stmt = $pdo->prepare("
+                            INSERT INTO user_activity_log (user_id, activity_type, description) 
+                            VALUES (?, 'prediction', 'New prediction made')
+                        ");
+                        $stmt->execute([$user_id]);
+                        
+                        echo json_encode([
+                            'success' => true, 
+                            'message' => 'Prediction saved successfully',
+                            'prediction_id' => $prediction_id
+                        ]);
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Invalid prediction data format']);
+                    }
                 } catch (PDOException $e) {
                     error_log("Error saving prediction: " . $e->getMessage());
-                    echo json_encode(['success' => false, 'message' => 'Failed to save prediction']);
+                    echo json_encode(['success' => false, 'message' => 'Failed to save prediction: ' . $e->getMessage()]);
                 }
             } else {
-                echo json_encode(['success' => false, 'message' => 'Invalid prediction data']);
+                echo json_encode(['success' => false, 'message' => 'Missing prediction data or result']);
             }
             exit;
         }

@@ -214,12 +214,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="index.php?route=admin_import_dataset">
-                    <i class="fas fa-file-import"></i>
-                    Import Dataset
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="index.php?route=admin_profile">
                     <i class="fas fa-user-circle"></i>
                     Profile
@@ -269,8 +263,6 @@
                                 <thead>
                                     <tr>
                                         <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Wallet Address</th>
                                         <th>Role</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -347,16 +339,6 @@
                         <td>
                             <div class="text-truncate" style="max-width: 300px;">
                                 <span class="text-monospace small">${user.username}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="text-truncate" style="max-width: 300px;">
-                                <span class="text-monospace small">${user.email}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="text-truncate" style="max-width: 300px;">
-                                <span class="text-monospace small">${user.wallet_address}</span>
                             </div>
                         </td>
                         <td>

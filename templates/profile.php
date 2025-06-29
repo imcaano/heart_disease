@@ -125,6 +125,31 @@ if (!isset($_SESSION['user'])) {
                                         </div>
                                         <hr>
                                         <div class="password-form mt-3">
+                                            <h5 class="mb-3">Update Profile Information</h5>
+                                            <form id="profileForm">
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Username</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                        <input type="text" class="form-control" id="username" value="<?php echo htmlspecialchars($_SESSION['user']['username']); ?>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                        <input type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($_SESSION['user']['email']); ?>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-save me-2"></i>Update Profile
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <hr>
+                                        <div class="password-form mt-3">
                                             <h5 class="mb-3">Update Password</h5>
                                             <form id="passwordForm">
                                                 <div class="mb-3">
@@ -185,6 +210,60 @@ if (!isset($_SESSION['user'])) {
                 }, 2000);
             });
         }
+
+        // Profile Update Form
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Updating...';
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch('index.php?route=update_profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Profile updated successfully!');
+                    // Update the displayed username and email on the page
+                    document.querySelector('.profile-info h6').textContent = username;
+                    document.querySelector('.profile-info-value').textContent = username;
+                    document.querySelectorAll('.profile-info-value')[1].textContent = email;
+                    // Update the profile avatar initial
+                    document.querySelectorAll('.profile-avatar').forEach(avatar => {
+                        avatar.textContent = username.charAt(0).toUpperCase();
+                    });
+                    // Update the displayed username in the profile section
+                    document.querySelectorAll('h4').forEach(h4 => {
+                        if (h4.textContent.includes('<?php echo htmlspecialchars($_SESSION['user']['username']); ?>')) {
+                            h4.textContent = username;
+                        }
+                    });
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
 
         // Password Update Form
         document.getElementById('passwordForm').addEventListener('submit', async function(e) {

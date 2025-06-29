@@ -10,6 +10,7 @@ import 'core/providers/prediction_provider.dart';
 import 'core/providers/web3_provider.dart';
 import 'core/services/api_service.dart';
 import 'core/services/storage_service.dart';
+import 'features/appointments/appointment_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ class HeartDiseaseApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => PredictionProvider()),
         ChangeNotifierProvider(create: (_) => Web3Provider()),
+        ChangeNotifierProvider(create: (_) => AppointmentProvider()),
         Provider<ApiService>(create: (_) => ApiService()),
       ],
       child: MaterialApp(

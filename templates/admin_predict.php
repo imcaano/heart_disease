@@ -300,12 +300,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="index.php?route=admin_import_dataset">
-                    <i class="fas fa-file-import"></i>
-                    Import Dataset
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="index.php?route=admin_profile">
                     <i class="fas fa-user-circle"></i>
                     Profile

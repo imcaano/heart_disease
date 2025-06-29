@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/models/prediction.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../appointments/book_appointment_screen.dart';
 
 class PredictionResultCard extends StatelessWidget {
   final Prediction prediction;
@@ -11,7 +12,7 @@ class PredictionResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isHighRisk = prediction.prediction == 1;
     final riskColor = isHighRisk ? AppTheme.dangerColor : AppTheme.successColor;
-    final riskText = isHighRisk ? 'High Risk' : 'Low Risk';
+    final riskText = isHighRisk ? 'Positive' : 'Negative';
     final riskIcon = isHighRisk ? Icons.warning : Icons.check_circle;
 
     return Card(
@@ -175,6 +176,43 @@ class PredictionResultCard extends StatelessWidget {
                           ),
                     ),
                   ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Contact Expert Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BookAppointmentScreen(
+                          predictionId: prediction.id,
+                          predictionResult: prediction.prediction.toString(),
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.dangerColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
+                  icon: const Icon(Icons.medical_services, size: 20),
+                  label: const Text(
+                    'Contact Expert',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ] else ...[
