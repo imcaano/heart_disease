@@ -1,0 +1,137 @@
+[09-May-2025 12:13:07 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[09-May-2025 12:13:07 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[09-May-2025 12:15:52 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[09-May-2025 12:15:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[09-May-2025 12:15:59 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[09-May-2025 12:15:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:27 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:27 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:27 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:27 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:36 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:36 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:36 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:28:36 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:30:06 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:30:06 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:30:06 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:30:06 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:39:25 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:39:25 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:39:25 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:39:25 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:48:50 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:48:50 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 C:\xampp\htdocs\heart_disease\test_flutter_api.php(38): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:50:47 Europe/Berlin] PHP Warning:  require_once(../config/database.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:50:47 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config/database.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 C:\xampp\htdocs\heart_disease\test_flutter_api.php(38): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:52:10 Europe/Berlin] PHP Warning:  require_once(../config.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:52:10 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 C:\xampp\htdocs\heart_disease\test_flutter_api.php(38): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:52:14 Europe/Berlin] PHP Warning:  require_once(../config.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 07:52:14 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\heart_disease\api\predict.php:13
+Stack trace:
+#0 C:\xampp\htdocs\heart_disease\test_flutter_api.php(38): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\heart_disease\api\predict.php on line 13
+[26-Jun-2025 13:59:18 Asia/Manila] PHP Warning:  Constant PYTHON_PATH already defined in C:\xampp\htdocs\heart_disease\api\predict.php on line 16
+[26-Jun-2025 13:59:18 Asia/Manila] PHP Warning:  Constant PREDICT_SCRIPT already defined in C:\xampp\htdocs\heart_disease\api\predict.php on line 17
+[26-Jun-2025 13:59:18 Asia/Manila] PHP Warning:  Constant TEMP_DIR already defined in C:\xampp\htdocs\heart_disease\api\predict.php on line 18
+[2025-06-26 13:59:18] Received new request
+[2025-06-26 13:59:18] Raw input received: 
+[2025-06-26 14:03:00] Received new request
+[2025-06-26 14:03:00] Raw input received: {"age":50,"sex":1,"cp":0,"trestbps":120,"chol":200,"fbs":0,"restecg":0,"thalach":150,"exang":0,"oldpeak":0,"slope":0,"ca":0,"thal":0}
+[2025-06-26 14:03:00] Running command: "python" "C:\xampp\htdocs\heart_disease/predict.py" "C:\xampp\htdocs\heart_disease/temp/input_685ce2947ec79.json" 2>&1
+[2025-06-26 14:03:00] Python output: {"success": true, "prediction": 0, "message": "Negative"}
+[26-Jun-2025 14:03:00 Asia/Manila] PHP Warning:  Undefined array key "probability" in C:\xampp\htdocs\heart_disease\api\predict.php on line 153
+[2025-06-26 14:03:00] Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prediction' in 'field list'
+[2025-06-26 14:03:00] Received new request
+[2025-06-26 14:03:00] Raw input received: 
+[2025-06-26 14:06:13] Received new request
+[2025-06-26 14:06:13] Raw input received: {"age":50,"sex":1,"cp":0,"trestbps":120,"chol":200,"fbs":0,"restecg":0,"thalach":150,"exang":0,"oldpeak":0,"slope":0,"ca":0,"thal":0}
+[2025-06-26 14:06:13] Running command: "python" "C:\xampp\htdocs\heart_disease/predict.py" "C:\xampp\htdocs\heart_disease/temp/input_685ce3550c165.json" 2>&1
+[2025-06-26 14:06:13] Python output: {"success": true, "prediction": 0, "message": "Negative"}
+[2025-06-26 14:06:13] Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prediction' in 'field list'
+[2025-06-26 14:06:13] Received new request
+[2025-06-26 14:06:13] Raw input received: 
+[2025-06-26 14:06:21] Received new request
+[2025-06-26 14:06:21] Raw input received: {"age":50,"sex":1,"cp":0,"trestbps":120,"chol":200,"fbs":0,"restecg":0,"thalach":150,"exang":0,"oldpeak":0,"slope":0,"ca":0,"thal":0}
+[2025-06-26 14:06:21] Running command: "python" "C:\xampp\htdocs\heart_disease/predict.py" "C:\xampp\htdocs\heart_disease/temp/input_685ce35d425a1.json" 2>&1
+[2025-06-26 14:06:21] Python output: {"success": true, "prediction": 0, "message": "Negative"}
+[2025-06-26 14:06:21] Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'prediction' in 'field list'
+[2025-06-26 14:06:21] Received new request
+[2025-06-26 14:06:21] Raw input received: 
+[2025-06-26 14:11:17] Received new request
+[2025-06-26 14:11:17] Raw input received: {"age":50,"sex":1,"cp":0,"trestbps":120,"chol":200,"fbs":0,"restecg":0,"thalach":150,"exang":0,"oldpeak":0,"slope":0,"ca":0,"thal":0}
+[2025-06-26 14:11:17] Running command: "python" "C:\xampp\htdocs\heart_disease/predict.py" "C:\xampp\htdocs\heart_disease/temp/input_685ce48530150.json" 2>&1
+[2025-06-26 14:11:17] Python output: {"success": true, "prediction": 0, "message": "Negative"}
+[2025-06-26 14:11:17] Error: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`heart_disease`.`predictions`, CONSTRAINT `predictions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE)
+[2025-06-26 14:11:17] Received new request
+[2025-06-26 14:11:17] Raw input received: 
+[2025-06-26 18:52:23] Received new request
+[2025-06-26 18:52:23] Raw input received: 
+[2025-06-26 18:52:38] Received new request
+[2025-06-26 18:52:38] Raw input received: 
+[2025-06-26 19:25:05] Received new request
+[2025-06-26 19:25:05] Raw input received: 
+[2025-06-26 19:28:47] Received new request
+[2025-06-26 19:28:47] Raw input received: 
+[2025-06-26 19:29:52] Received new request
+[2025-06-26 19:29:52] Raw input received: 
+[2025-06-26 19:32:19] Received new request
+[2025-06-26 19:32:19] Raw input received: 
+[2025-06-26 19:42:08] Received new request
+[2025-06-26 19:42:08] Raw input received: 
+[2025-06-26 20:17:42] Received new request
+[2025-06-26 20:17:42] Raw input received: {"age":60,"sex":0,"cp":0,"trestbps":99,"chol":120,"fbs":0,"restecg":0,"thalach":200,"exang":0,"oldpeak":2,"slope":0,"ca":2,"thal":0}
+[2025-06-26 20:17:42] Running command: "python" "C:\xampp\htdocs\heart_disease/predict.py" "C:\xampp\htdocs\heart_disease/temp/input_685d3a6613006.json" 2>&1
+[2025-06-26 20:17:42] Python output: {"success": true, "prediction": 0, "message": "Negative"}
+[2025-06-26 20:17:42] Error: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`heart_disease`.`predictions`, CONSTRAINT `predictions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE)
+[2025-06-26 20:21:13] Received new request
+[2025-06-26 20:21:13] Raw input received: {"age":30,"sex":1,"cp":2,"trestbps":300,"chol":300,"fbs":0,"restecg":0,"thalach":200,"exang":0,"oldpeak":3,"slope":0,"ca":2,"thal":0}
+[2025-06-26 20:21:13] Running command: "python" "C:\xampp\htdocs\heart_disease/predict.py" "C:\xampp\htdocs\heart_disease/temp/input_685d3b397b63e.json" 2>&1
+[2025-06-26 20:21:13] Python output: {"success": true, "prediction": 1, "message": "Positive"}
+[2025-06-26 20:21:13] Error: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`heart_disease`.`predictions`, CONSTRAINT `predictions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE)
