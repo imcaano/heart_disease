@@ -1,0 +1,35 @@
+1. go to 
+C:\Users\pc\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_local_notifications-15.1.1\android\src\main\java\com\dexterous\flutterlocalnotifications\
+open file named FlutterLocalNotificationsPlugin.java
+2, go to line 1001 kasooo bilaaaaw ilaaa line 1026 code ku past garey 
+
+if (bigPictureStyleInformation.summaryText != null) {
+      CharSequence summaryText =
+          bigPictureStyleInformation.htmlFormatSummaryText
+              ? fromHtml(bigPictureStyleInformation.summaryText)
+              : bigPictureStyleInformation.summaryText;
+      bigPictureStyle.setSummaryText(summaryText);
+    }
+
+    if (bigPictureStyleInformation.hideExpandedLargeIcon) {
+      bigPictureStyle.bigLargeIcon(null);
+    } else {
+      if (bigPictureStyleInformation.largeIcon != null) {
+        bigPictureStyle.bigLargeIcon(
+            getBitmapFromSource(
+                context,
+                bigPictureStyleInformation.largeIcon,
+                bigPictureStyleInformation.largeIconBitmapSource));
+      }
+    }
+    bigPictureStyle.bigPicture(
+        getBitmapFromSource(
+            context,
+            bigPictureStyleInformation.bigPicture,
+            bigPictureStyleInformation.bigPictureBitmapSource));
+    builder.setStyle(bigPictureStyle);
+  } 
+
+
+
+  kadib save dheh 
