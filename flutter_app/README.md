@@ -61,11 +61,29 @@ Open this URL in browser to add sample users and predictions:
 http://localhost/heart_disease/api/sample_data.php
 ```
 
+## 🌐 Network Configuration
+
+### Your IP Addresses:
+- **Wi-Fi**: `192.168.18.12` (Primary for mobile access)
+- **Ethernet**: `192.168.56.1` (Virtual network)
+- **Cellular**: `11.2.198.102` (Mobile broadband)
+
+### Access URLs:
+- **Flutter App (Mobile)**: `http://192.168.18.12:8080`
+- **Web Dashboard**: `http://192.168.18.12/heart_disease`
+- **Python API**: `http://192.168.18.12:5000`
+- **PHP APIs**: `http://192.168.18.12/heart_disease/api/`
+
+### For Mobile Testing:
+1. Make sure your mobile device is on the same Wi-Fi network
+2. Use the Wi-Fi IP address (`192.168.18.12`) to access the app
+3. Update the IP in `flutter_app/lib/core/config/app_config.dart` if your IP changes
+
 ## ✅ That's It!
 
 Your project is now running:
-- **Flutter App**: http://localhost:8080
-- **Python Server**: http://127.0.0.1:5000
+- **Flutter App**: http://localhost:8080 (local) / http://192.168.18.12:8080 (mobile)
+- **Python Server**: http://127.0.0.1:5000 (local) / http://192.168.18.12:5000 (mobile)
 - **XAMPP**: Running Apache and MySQL
 
 ## 🔧 If Something Doesn't Work

@@ -4,11 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../models/prediction.dart';
 import '../models/api_response.dart';
+import '../config/app_config.dart';
 import 'dart:math';
 
 class ApiService {
   // Update this to match your local XAMPP setup
-  static const String baseUrl = 'http://192.168.56.1/heart_disease/api';
+  static const String baseUrl = AppConfig.phpApiBaseUrl;
 
   final http.Client _client = http.Client();
 
@@ -138,7 +139,7 @@ class ApiService {
       print('Making prediction request with data: $predictionData');
 
       final response = await _client.post(
-        Uri.parse('http://192.168.56.1:5000/predict'), // Direct Python API
+        Uri.parse('${AppConfig.pythonApiBaseUrl}/predict'), // Direct Python API
         headers: _headers,
         body: jsonEncode(predictionData),
       );
