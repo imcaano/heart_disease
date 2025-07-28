@@ -141,41 +141,43 @@ class _AdminDashboardPageState extends State<AdminDashboardPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Dashboard',
-            style: TextStyle(color: Colors.white)),
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadDashboardData,
-            tooltip: 'Refresh',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Admin Dashboard'),
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: _loadDashboardData,
+                tooltip: 'Refresh',
+              ),
+              IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Logout',
+                onPressed: () async {
+                  await context.read<AuthProvider>().logout();
+                  if (mounted) {
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
+                  }
+                },
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () async {
-              await context.read<AuthProvider>().logout();
-              if (mounted) {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
-              }
-            },
-          ),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: _loadDashboardData,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+          drawer: const AppDrawer(),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight - 32,
+              ),
+              child: IntrinsicHeight(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // Welcome Section
                     _buildWelcomeSection(),
@@ -205,6 +207,9 @@ class _AdminDashboardPageState extends State<AdminDashboardPage>
                 ),
               ),
             ),
+          ),
+        );
+      },
     );
   }
 
@@ -906,14 +911,6 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     AppRouter.navigateTo(AppRouter.adminReports);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.file_upload),
-                  title: const Text('Import Dataset'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    AppRouter.navigateTo(AppRouter.importDataset);
                   },
                 ),
                 const Divider(),

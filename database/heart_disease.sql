@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2025 at 02:19 PM
+-- Generation Time: Jul 27, 2025 at 07:35 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -85,10 +85,16 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `user_id`, `patient_name`, `patient_email`, `patient_phone`, `appointment_date`, `appointment_time`, `address`, `reason`, `prediction_id`, `prediction_result`, `status`, `admin_notes`, `created_at`, `updated_at`) VALUES
-(1, 17, 'imhamza1@yahoo.com', 'afsonlp97@gmail.com', '44444', '2025-06-30', '11:00:00', '0x845216742d672c54f595690561c5ebccfb88d3c0', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', 122, 1, 'approved', NULL, '2025-06-29 00:05:43', '2025-06-29 00:22:44'),
-(2, 18, 'talizo', 'hamza@gmail.com', '0133340509', '2025-07-03', '11:00:00', '0xba35cedd7c643be63027f34ebb9b964c21411b09', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', 124, 1, 'approved', '', '2025-07-02 03:48:44', '2025-07-02 03:55:29'),
+(1, 17, 'imhamza1@yahoo.com', 'afsonlp97@gmail.com', '44444', '2025-06-30', '11:00:00', '0x845216742d672c54f595690561c5ebccfb88d3c0', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', NULL, 1, 'approved', NULL, '2025-06-29 00:05:43', '2025-06-29 00:22:44'),
+(2, 18, 'talizo', 'hamza@gmail.com', '0133340509', '2025-07-03', '11:00:00', '0xba35cedd7c643be63027f34ebb9b964c21411b09', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', NULL, 1, 'approved', '', '2025-07-02 03:48:44', '2025-07-02 03:55:29'),
 (3, 19, 'hamza1', 'iamcaano9@gmail.com', '666', '2025-07-12', '15:00:00', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'High risk heart disease prediction - Consultation required', NULL, NULL, 'approved', NULL, '2025-07-11 19:38:16', '2025-07-12 18:05:27'),
-(4, 10, 'Test Patient', 'test@example.com', '1234567890', '2025-07-14', '10:00:00', 'Test Address', 'Test consultation', NULL, NULL, 'approved', 'Test approval via API', '2025-07-13 05:22:55', '2025-07-13 05:23:41');
+(4, 10, 'Test Patient', 'test@example.com', '1234567890', '2025-07-14', '10:00:00', 'Test Address', 'Test consultation', NULL, NULL, 'approved', 'Test approval via API', '2025-07-13 05:22:55', '2025-07-13 05:23:41'),
+(5, 19, 'hamza1', 'iamcaano9@gmail.com', '61611', '2025-07-15', '10:00:00', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', NULL, 1, 'approved', NULL, '2025-07-14 16:13:55', '2025-07-14 17:10:23'),
+(6, 19, 'hamza1', 'iamcaano9@gmail.com', '5555', '2025-07-16', '15:00:00', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'High risk heart disease prediction - Consultation required', NULL, NULL, 'approved', NULL, '2025-07-14 19:14:14', '2025-07-14 19:15:58'),
+(7, 19, 'hamza1', 'iamcaano9@gmail.com', '4056213632', '2025-07-17', '15:00:00', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', NULL, 1, 'approved', NULL, '2025-07-14 19:39:01', '2025-07-14 19:49:26'),
+(8, 21, 'haaaa', 'haaa@gmail.com', '61199', '2025-07-23', '14:00:00', '0xd3bd6c66f85db778866fd6a47b78826435ea3269', 'High risk heart disease prediction - Consultation required', NULL, NULL, 'completed', NULL, '2025-07-22 18:45:00', '2025-07-22 18:59:40'),
+(9, 22, 'yahye', 'iamcaano3@gmail.com', '612929251', '2025-07-29', '14:00:00', '0xc656cb6cf1b1394cc77ccf4550331a23fe35b3af', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', NULL, 1, 'approved', NULL, '2025-07-27 17:02:38', '2025-07-27 17:03:16'),
+(10, 22, 'yahye', 'iamcaano3@gmail.com', '4056213632', '2025-07-30', '16:00:00', '0xc656cb6cf1b1394cc77ccf4550331a23fe35b3af', 'Based on my heart disease prediction result showing high risk (Positive), I would like to schedule a consultation with a medical expert for a thorough evaluation and personalized care plan. My recent prediction showed concerning risk factors that require professional medical attention.', NULL, 1, 'approved', NULL, '2025-07-27 17:31:48', '2025-07-27 17:32:53');
 
 -- --------------------------------------------------------
 
@@ -6488,7 +6494,6 @@ INSERT INTO `predictions` (`id`, `user_id`, `age`, `sex`, `cp`, `trestbps`, `cho
 (44, 12, 24, 1, 0, 160, 299, 1, 0, 120, 1, 4, 1, 1, 1, 1, '', '2025-05-09 17:36:40', 0.00, 1, NULL, 0, '2025-06-26 09:09:28'),
 (89, 14, 22, 1, 0, 120, 300, 1, 0, 90, 1, 4, 0, 0, 1, 1, '', '2025-05-26 18:52:10', 0.00, 0, NULL, 0, '2025-06-26 09:09:28'),
 (93, 17, 30, 1, 0, 99, 222, 1, 1, 200, 1, 2, 0, 1, 2, 0, '', '2025-06-28 23:06:12', 0.00, 0, NULL, 0, '2025-06-29 02:06:12'),
-(94, 17, 30, 1, 0, 99, 222, 1, 1, 200, 1, 2, 0, 1, 2, 0, '', '2025-06-28 23:06:12', 0.00, 0, NULL, 0, '2025-06-29 02:06:12'),
 (95, 17, 30, 1, 0, 99, 500, 0, 1, 200, 1, 2, 0, 1, 2, 1, '', '2025-06-28 23:06:34', 0.00, 0, NULL, 0, '2025-06-29 02:06:34'),
 (96, 17, 30, 1, 0, 99, 500, 0, 1, 200, 1, 2, 0, 1, 2, 0, '', '2025-06-28 23:06:34', 0.00, 0, NULL, 1, '2025-06-29 02:06:34'),
 (97, 17, 80, 1, 0, 200, 400, 1, 1, 200, 0, 3, 0, 1, 1, 1, '', '2025-06-28 23:09:28', 0.00, 0, NULL, 0, '2025-06-29 02:09:28'),
@@ -6508,17 +6513,20 @@ INSERT INTO `predictions` (`id`, `user_id`, `age`, `sex`, `cp`, `trestbps`, `cho
 (111, 17, 90, 0, 2, 200, 499, 1, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:40:48', 0.00, 0, NULL, 0, '2025-06-29 02:40:48'),
 (112, 17, 90, 0, 2, 200, 499, 1, 1, 200, 1, 3, 1, 1, 0, 0, '', '2025-06-28 23:40:48', 0.00, 0, NULL, 1, '2025-06-29 02:40:48'),
 (113, 17, 90, 0, 2, 200, 499, 1, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:53:21', 0.00, 0, NULL, 1, '2025-06-29 02:53:21'),
-(114, 17, 90, 0, 2, 200, 499, 1, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:53:21', 0.85, 0, NULL, 1, '2025-06-29 02:53:21'),
 (115, 17, 90, 0, 2, 200, 499, 1, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:53:23', 0.00, 0, NULL, 1, '2025-06-29 02:53:23'),
 (116, 17, 90, 0, 2, 200, 499, 1, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:53:24', 0.85, 0, NULL, 1, '2025-06-29 02:53:24'),
 (117, 17, 20, 1, 0, 200, 400, 0, 0, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:54:15', 0.00, 0, NULL, 1, '2025-06-29 02:54:15'),
-(118, 17, 20, 1, 0, 200, 400, 0, 0, 200, 1, 3, 1, 1, 0, 1, '', '2025-06-28 23:54:15', 0.85, 0, NULL, 1, '2025-06-29 02:54:15'),
 (119, 17, 40, 1, 0, 200, 400, 1, 0, 200, 1, 3, 0, 0, 0, 1, '', '2025-06-28 23:56:02', 0.00, 0, NULL, 1, '2025-06-29 02:56:02'),
 (120, 17, 40, 1, 0, 200, 400, 1, 0, 200, 1, 3, 0, 0, 0, 1, '', '2025-06-28 23:56:03', 0.85, 0, NULL, 1, '2025-06-29 02:56:03'),
 (121, 17, 40, 1, 0, 200, 400, 1, 0, 200, 1, 3, 0, 0, 0, 1, '', '2025-06-29 00:05:25', 0.00, 0, NULL, 1, '2025-06-29 03:05:25'),
-(122, 17, 40, 1, 0, 200, 400, 1, 0, 200, 1, 3, 0, 0, 0, 1, '', '2025-06-29 00:05:25', 0.85, 0, NULL, 1, '2025-06-29 03:05:25'),
 (123, 18, 72, 1, 0, 200, 400, 0, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-07-02 03:48:32', 0.00, 0, NULL, 1, '2025-07-02 06:48:32'),
-(124, 18, 72, 1, 0, 200, 400, 0, 1, 200, 1, 3, 1, 1, 0, 1, '', '2025-07-02 03:48:32', 0.85, 0, NULL, 1, '2025-07-02 06:48:32');
+(125, 19, 80, 1, 0, 200, 100, 1, 0, 60, 1, 3, 0, 0, 0, 1, '', '2025-07-14 16:13:42', 0.00, 0, NULL, 1, '2025-07-14 19:13:42'),
+(127, 19, 80, 1, 0, 90, 100, 1, 0, 60, 1, 2, 0, 0, 1, 1, '', '2025-07-14 19:38:41', 0.00, 0, NULL, 1, '2025-07-14 22:38:41'),
+(129, 22, 80, 1, 0, 90, 100, 1, 0, 60, 1, 2, 0, 1, 0, 1, '', '2025-07-27 17:02:27', 0.00, 0, NULL, 1, '2025-07-27 20:02:27'),
+(131, 22, 80, 1, 0, 90, 100, 1, 0, 60, 1, 2, 0, 0, 2, 1, '', '2025-07-27 17:06:03', 0.00, 1, NULL, 0, '2025-07-27 20:06:03'),
+(132, 22, 90, 0, 0, 90, 100, 1, 0, 60, 1, 2, 0, 0, 0, 0, '', '2025-07-27 17:31:27', 0.00, 0, NULL, 0, '2025-07-27 20:31:27'),
+(134, 22, 90, 0, 0, 200, 100, 0, 0, 60, 1, 2, 0, 0, 0, 1, '', '2025-07-27 17:31:36', 0.00, 0, NULL, 1, '2025-07-27 20:31:36'),
+(136, 22, 20, 1, 1, 90, 200, 1, 0, 150, 1, 3, 1, 1, 1, 0, '', '2025-07-27 17:34:59', 0.00, 1, NULL, 0, '2025-07-27 20:34:59');
 
 -- --------------------------------------------------------
 
@@ -6654,8 +6662,10 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `wallet_address`, `r
 (16, 'mohamed', 'mohamed@gmail.com', '$2y$10$xjS2QSOTApimL6P3c14Zi.GzyJzCxmpsDSfl.5ReElG7c7jO8Zn7a', '0x1c102db61a72ec47ccd32aaa3a93ebf3b03e9353', 'admin', '2025-06-27 18:14:37', 0, 0.00, 0, '2025-07-02 03:50:42', 'active', NULL),
 (17, 'imhamza1@yahoo.com', 'afsonlp97@gmail.com', '$2y$10$s5u.RT9MGES4jYIpiHUSyuc/vgjJU4o5qY.ubq3jUKW1wZ600rb5O', '0x845216742d672c54f595690561c5ebccfb88d3c0', 'user', '2025-06-28 23:04:53', 20, 0.00, 0, '2025-06-29 00:12:32', 'active', NULL),
 (18, 'talizo', 'hamza@gmail.com', '$2y$10$nTbLFC4POTE34TB0ylPyduw7jLe7mVy56n45kswttAl3urR/hTYWu', '0xba35cedd7c643be63027f34ebb9b964c21411b09', 'user', '2025-06-29 11:32:31', 2, 0.00, 0, '2025-07-02 04:33:53', 'active', NULL),
-(19, 'hamza1', 'iamcaano9@gmail.com', '$2y$10$5ScxQixHkYpQYbTHCsKzs.f/HVQzrUqVWLZ/BRhvGKJ5qMcdrxcBK', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'user', '2025-07-11 13:01:55', 0, 0.00, 0, '2025-07-12 18:02:27', 'active', '68d17af6edb8a4effa98284e96e0a5063a1b185d2037df7df0243fe31b02d320'),
-(20, 'oyaaye', 'oyaaye@gmail.com', '$2y$10$vinpyijaW.6yPGJ6IcjxeuNMhR/l9DL1/ZVlNDsYpLbmAxuXF.Qge', '0x71be63f3384f5fb98995898a86b02fb2426c5788', 'admin', '2025-07-12 18:08:29', 0, 0.00, 0, '2025-07-12 18:14:34', 'active', 'd48eb864f58dfd6eadc964bb27f6a36262f00e073518693eea08db5cbb91bb2f');
+(19, 'hamza1', 'iamcaano9@gmail.com', '$2y$10$u4Y1Tu7JBLOAx/CebB7p6.6Yhy3aH/moNrpsgbZinDe//f8Z.CS0i', '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', 'user', '2025-07-11 13:01:55', 4, 0.00, 0, '2025-07-14 19:47:40', 'active', '5217ada79865b2b5ff2674397dbc3df8ba71ee34209d9b4802e3114f2f2dff22'),
+(20, 'oyaaye', 'oyaaye@gmail.com', '$2y$10$pEmvQ4InXrMzClq1nxkJvOyWp.lQSs8v3MQKame77MYveT6rpOawm', '0x71be63f3384f5fb98995898a86b02fb2426c5788', 'admin', '2025-07-12 18:08:29', 0, 0.00, 0, '2025-07-14 19:49:11', 'active', 'd43498fcd3df4e83503549403c86e92bbf3401e7ee87bc9367891f24b7b7fa98'),
+(21, 'haaaa', 'haaa@gmail.com', '$2y$10$D48NR58Lit7d8TYR5aOXC.QAsh9JS4CwSOj/JfbFxTCURm4F6bY/y', '0xd3bd6c66f85db778866fd6a47b78826435ea3269', 'admin', '2025-07-20 17:55:22', 0, 0.00, 0, NULL, 'active', '9c133b493a84a0ada8085ef3848983cd27eaa4955ba7fd18b71efad349c79221'),
+(22, 'yahye', 'iamcaano3@gmail.com', '$2y$10$neLn7RpI0WPyzwL.lkOQrOzffqRcQBXvB8cZH4Sd8ED0leOHKVXhC', '0xc656cb6cf1b1394cc77ccf4550331a23fe35b3af', 'admin', '2025-07-27 17:01:00', 8, 0.00, 0, '2025-07-27 17:32:26', 'active', NULL);
 
 -- --------------------------------------------------------
 
@@ -6762,7 +6772,34 @@ INSERT INTO `user_activity_log` (`id`, `user_id`, `activity_type`, `description`
 (141, 16, 'login', 'User logged in successfully', '::1', '2025-07-02 03:50:42'),
 (142, 16, '', 'Appointment #2 status updated to approved', '::1', '2025-07-02 03:55:29'),
 (143, 18, 'login', 'User logged in successfully', '::1', '2025-07-02 03:56:41'),
-(144, 10, '', 'Appointment #4 status updated to approved', '::1', '2025-07-13 05:23:41');
+(144, 10, '', 'Appointment #4 status updated to approved', '::1', '2025-07-13 05:23:41'),
+(145, 19, 'login', 'User logged in successfully', '::1', '2025-07-14 16:12:58'),
+(146, 19, 'prediction', 'New prediction made', NULL, '2025-07-14 16:13:42'),
+(147, 19, 'prediction', 'New prediction made', NULL, '2025-07-14 16:13:42'),
+(148, 20, 'login', 'User logged in successfully', '::1', '2025-07-14 16:21:40'),
+(149, 20, 'login', 'User logged in successfully', '::1', '2025-07-14 17:07:40'),
+(150, 19, '', 'Password updated', '::1', '2025-07-14 19:12:27'),
+(151, 19, 'login', 'User logged in successfully', '::1', '2025-07-14 19:38:03'),
+(152, 19, 'prediction', 'New prediction made', NULL, '2025-07-14 19:38:41'),
+(153, 19, 'prediction', 'New prediction made', NULL, '2025-07-14 19:38:41'),
+(154, 19, 'login', 'User logged in successfully', '::1', '2025-07-14 19:47:40'),
+(155, 20, 'login', 'User logged in successfully', '::1', '2025-07-14 19:49:11'),
+(156, 20, '', 'Password updated', '::1', '2025-07-14 19:51:47'),
+(157, 21, '', 'Password updated', '192.168.18.19', '2025-07-21 19:26:38'),
+(158, 22, 'login', 'User registered successfully', '::1', '2025-07-27 17:01:00'),
+(159, 22, 'login', 'User logged in successfully', '::1', '2025-07-27 17:01:59'),
+(160, 22, 'prediction', 'New prediction made', NULL, '2025-07-27 17:02:27'),
+(161, 22, 'prediction', 'New prediction made', NULL, '2025-07-27 17:02:27'),
+(162, 22, 'login', 'User logged in successfully', '::1', '2025-07-27 17:03:06'),
+(163, 22, 'prediction', 'New prediction made by admin', NULL, '2025-07-27 17:06:03'),
+(164, 22, 'login', 'User logged in successfully', '::1', '2025-07-27 17:30:37'),
+(165, 22, 'login', 'User logged in successfully', '::1', '2025-07-27 17:31:02'),
+(166, 22, 'prediction', 'New prediction made', NULL, '2025-07-27 17:31:27'),
+(167, 22, 'prediction', 'New prediction made', NULL, '2025-07-27 17:31:27'),
+(168, 22, 'prediction', 'New prediction made', NULL, '2025-07-27 17:31:36'),
+(169, 22, 'prediction', 'New prediction made', NULL, '2025-07-27 17:31:36'),
+(170, 22, 'login', 'User logged in successfully', '::1', '2025-07-27 17:32:26'),
+(171, 22, 'prediction', 'New prediction made by admin', NULL, '2025-07-27 17:34:59');
 
 -- --------------------------------------------------------
 
@@ -6955,7 +6992,7 @@ ALTER TABLE `admin_dashboard_stats`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `custom_reports`
@@ -6997,7 +7034,7 @@ ALTER TABLE `prediction`
 -- AUTO_INCREMENT for table `predictions`
 --
 ALTER TABLE `predictions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT for table `prediction_feedback`
@@ -7033,13 +7070,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `user_activity_log`
 --
 ALTER TABLE `user_activity_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT for table `user_permissions`

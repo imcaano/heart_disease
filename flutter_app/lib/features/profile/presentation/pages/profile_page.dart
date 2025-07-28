@@ -167,44 +167,53 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         }
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Profile'),
-            backgroundColor: AppTheme.primaryColor,
-            foregroundColor: Colors.white,
-            elevation: 0,
-          ),
-          drawer: const AppDrawer(),
-          body: _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Profile Header
-                      _buildProfileHeader(user),
-                      const SizedBox(height: 24),
-
-                      // User Information
-                      _buildUserInfo(user),
-                      const SizedBox(height: 24),
-
-                      // Password Update Form
-                      _buildPasswordForm(),
-                      const SizedBox(height: 24),
-
-                      // Recent Activities (if available)
-                      if (_recentActivities.isNotEmpty) ...[
-                        _buildRecentActivities(),
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Profile'),
+                backgroundColor: AppTheme.primaryColor,
+                foregroundColor: Colors.white,
+                elevation: 0,
+              ),
+              drawer: const AppDrawer(),
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight - 32,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Profile Header
+                        _buildProfileHeader(user),
                         const SizedBox(height: 24),
-                      ],
 
-                      // Logout Button
-                      _buildLogoutButton(),
-                    ],
+                        // User Information
+                        _buildUserInfo(user),
+                        const SizedBox(height: 24),
+
+                        // Password Update Form
+                        _buildPasswordForm(),
+                        const SizedBox(height: 24),
+
+                        // Recent Activities (if available)
+                        if (_recentActivities.isNotEmpty) ...[
+                          _buildRecentActivities(),
+                          const SizedBox(height: 24),
+                        ],
+
+                        // Logout Button
+                        _buildLogoutButton(),
+                      ],
+                    ),
                   ),
                 ),
+              ),
+            );
+          },
         );
       },
     );
@@ -378,7 +387,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: onCopy,
               icon: const Icon(Icons.copy, size: 18),
               tooltip: 'Copy to clipboard',
-          ),
+            ),
         ],
       ),
     );

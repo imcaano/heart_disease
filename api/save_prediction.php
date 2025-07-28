@@ -31,6 +31,15 @@ try {
         'prediction_date' => $_POST['prediction_date']
     ];
 
+    // Check for duplicate prediction in the last 5 minutes
+    $checkSql = "SELECT id FROM predictions WHERE user_id = :user_id AND age = :age AND sex = :sex AND cp = :cp AND trestbps = :trestbps AND chol = :chol AND fbs = :fbs AND restecg = :restecg AND thalach = :thalach AND exang = :exang AND oldpeak = :oldpeak AND slope = :slope AND ca = :ca AND thal = :thal AND prediction = :prediction AND prediction_date >= DATE_SUB(NOW(), INTERVAL 5 MINUTE)";
+    $checkStmt = $pdo->prepare($checkSql);
+    $checkStmt->execute($data);
+    if ($checkStmt->fetch()) {
+        echo json_encode(['success' => false, 'message' => 'Duplicate prediction detected.']);
+        exit;
+    }
+
     // Prepare SQL statement
     $sql = "INSERT INTO predictions (
         age, sex, cp, trestbps, chol, fbs, restecg, thalach, 

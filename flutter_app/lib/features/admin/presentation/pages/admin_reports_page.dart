@@ -69,50 +69,59 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Reports', style: TextStyle(color: Colors.white)),
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadPredictions,
-            tooltip: 'Refresh',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Admin Reports', style: TextStyle(color: Colors.white)),
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: _loadPredictions,
+                tooltip: 'Refresh',
+              ),
+              IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Logout',
+                onPressed: () async {
+                  await Provider.of<AuthProvider>(context, listen: false).logout();
+                  if (mounted) {
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
+                  }
+                },
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () async {
-              await Provider.of<AuthProvider>(context, listen: false).logout();
-              if (mounted) {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
-              }
-            },
-          ),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                // Search and Filter Section
-                _buildSearchAndFilter(),
-
-                // Predictions List
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: _loadPredictions,
-                    child: _filteredPredictions.isEmpty
-                        ? _buildEmptyState()
-                        : _buildPredictionsList(),
-                  ),
+          drawer: const AppDrawer(),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight - 32,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildSearchAndFilter(),
+                    Expanded(
+                      child: _isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : _filteredPredictions.isEmpty
+                              ? _buildEmptyState()
+                              : _buildPredictionsList(constraints),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
+          ),
+        );
+      },
     );
   }
 
@@ -145,35 +154,35 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                  const Text('Filter by result: '),
-                  const SizedBox(width: 8),
+              children: [
+                const Text('Filter by result: '),
+                const SizedBox(width: 8),
                   SizedBox(
                     width: 180,
-                    child: DropdownButtonFormField<String>(
-                      value: _predictionFilter,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
+                  child: DropdownButtonFormField<String>(
+                    value: _predictionFilter,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      items: const [
-                        DropdownMenuItem(
-                            value: 'all', child: Text('All Results')),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                          value: 'all', child: Text('All Results')),
                         DropdownMenuItem(
                             value: 'high', child: Text('High Risk')),
-                        DropdownMenuItem(value: 'low', child: Text('Low Risk')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _predictionFilter = value ?? 'all';
-                        });
-                      },
-                    ),
+                      DropdownMenuItem(value: 'low', child: Text('Low Risk')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _predictionFilter = value ?? 'all';
+                      });
+                    },
                   ),
-                ],
+                ),
+              ],
               ),
             ),
           ],
@@ -210,18 +219,19 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
     );
   }
 
-  Widget _buildPredictionsList() {
+  Widget _buildPredictionsList(BoxConstraints constraints) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: _filteredPredictions.length,
       itemBuilder: (context, index) {
         final prediction = _filteredPredictions[index];
-        return _buildPredictionCard(prediction);
+        return _buildPredictionCard(prediction, constraints);
       },
     );
   }
 
-  Widget _buildPredictionCard(Map<String, dynamic> prediction) {
+  Widget _buildPredictionCard(Map<String, dynamic> prediction, BoxConstraints constraints) {
     final isHighRisk = prediction['prediction'] == 1;
     final riskColor = isHighRisk ? AppTheme.dangerColor : AppTheme.successColor;
     final riskText = isHighRisk ? 'High Risk' : 'Low Risk';
@@ -277,16 +287,16 @@ class _AdminReportsPageState extends State<AdminReportsPage> {
                   child: Text(
                     riskText,
                     style: TextStyle(
-                      color: riskColor,
+                    color: riskColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
-                    ),
-                  ),
+                        ),
+                      ),
                 ),
                 const SizedBox(width: 8),
                 Text('Confidence: ${confidence.toStringAsFixed(2)}'),
               ],
-            ),
+                ),
             const SizedBox(height: 8),
             Text('Created: ${_formatDate(prediction['created_at'])}',
                 style: TextStyle(fontSize: 12, color: Colors.grey[500])),

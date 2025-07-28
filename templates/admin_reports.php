@@ -362,36 +362,38 @@
             }
 
             // Update table
-            let html = '<table class="table table-bordered table-striped">';
-            html += '<thead><tr>';
-            html += '<th>ID</th><th>Age</th><th>Sex</th><th>CP</th><th>BP</th><th>Chol</th><th>FBS</th><th>ECG</th><th>Thalach</th><th>Exang</th><th>Oldpeak</th><th>Slope</th><th>CA</th><th>Thal</th><th>Result</th><th>Date</th>';
-            html += '</tr></thead><tbody>';
-            
+            let html = '<div class="row">';
             if (data.reports && data.reports.length > 0) {
                 data.reports.forEach(function(row) {
-                    html += '<tr>';
-                    html += `<td>${row.id}</td>`;
-                    html += `<td>${row.age}</td>`;
-                    html += `<td>${row.sex}</td>`;
-                    html += `<td>${row.cp}</td>`;
-                    html += `<td>${row.trestbps}</td>`;
-                    html += `<td>${row.chol}</td>`;
-                    html += `<td>${row.fbs}</td>`;
-                    html += `<td>${row.restecg}</td>`;
-                    html += `<td>${row.thalach}</td>`;
-                    html += `<td>${row.exang}</td>`;
-                    html += `<td>${row.oldpeak}</td>`;
-                    html += `<td>${row.slope}</td>`;
-                    html += `<td>${row.ca}</td>`;
-                    html += `<td>${row.thal}</td>`;
-                    html += `<td>${row.prediction_result == 1 ? 'Positive' : 'Negative'}</td>`;
-                    html += `<td>${row.created_at}</td>`;
-                    html += '</tr>';
+                    html += '<div class="col-md-6 col-lg-4 mb-4">';
+                    html += '<div class="report-card">';
+                    html += `<div class="d-flex justify-content-between align-items-center mb-2">`;
+                    html += `<span class="badge ${row.prediction_result == 1 ? 'bg-danger' : 'bg-success'}">${row.prediction_result == 1 ? 'High Risk' : 'Low Risk'}</span>`;
+                    html += `<span class="text-muted" style="font-size:12px;">${row.created_at}</span>`;
+                    html += '</div>';
+                    html += `<div><b>Address:</b> ${row.address ? row.address : '<span class="text-muted">No address</span>'}</div>`;
+                    html += '<hr class="my-2">';
+                    html += '<div class="row">';
+                    html += `<div class="col-6"><b>Age:</b> ${row.age}</div>`;
+                    html += `<div class="col-6"><b>Sex:</b> ${row.sex == 1 ? 'Male' : 'Female'}</div>`;
+                    html += `<div class="col-6"><b>CP:</b> ${row.cp}</div>`;
+                    html += `<div class="col-6"><b>BP:</b> ${row.trestbps}</div>`;
+                    html += `<div class="col-6"><b>Chol:</b> ${row.chol}</div>`;
+                    html += `<div class="col-6"><b>FBS:</b> ${row.fbs}</div>`;
+                    html += `<div class="col-6"><b>ECG:</b> ${row.restecg}</div>`;
+                    html += `<div class="col-6"><b>Thalach:</b> ${row.thalach}</div>`;
+                    html += `<div class="col-6"><b>Exang:</b> ${row.exang}</div>`;
+                    html += `<div class="col-6"><b>Oldpeak:</b> ${row.oldpeak}</div>`;
+                    html += `<div class="col-6"><b>Slope:</b> ${row.slope}</div>`;
+                    html += `<div class="col-6"><b>CA:</b> ${row.ca}</div>`;
+                    html += `<div class="col-6"><b>Thal:</b> ${row.thal}</div>`;
+                    html += '</div>';
+                    html += '</div></div>';
                 });
             } else {
-                html += '<tr><td colspan="16" class="text-center">No data found</td></tr>';
+                html += '<div class="col-12 text-center text-muted">No data found</div>';
             }
-            html += '</tbody></table>';
+            html += '</div>';
             $('#reportTableContainer').html(html);
         }, 'json');
     }

@@ -67,53 +67,60 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Users'),
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadUsers,
-            tooltip: 'Refresh',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Manage Users'),
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: _loadUsers,
+                tooltip: 'Refresh',
+              ),
+              IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Logout',
+                onPressed: () async {
+                  await Provider.of<AuthProvider>(context, listen: false)
+                      .logout();
+                  if (mounted) {
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
+                  }
+                },
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () async {
-              await Provider.of<AuthProvider>(context, listen: false).logout();
-              if (mounted) {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
-              }
-            },
-          ),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                // Search and Filter Section
-                _buildSearchAndFilter(),
-
-                // Blockchain Info Banner
-                _buildBlockchainInfoBanner(),
-
-                // Users List
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: _loadUsers,
-                    child: _filteredUsers.isEmpty
-                        ? _buildEmptyState()
-                        : _buildUsersList(),
-                  ),
+          drawer: const AppDrawer(),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight - 32,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildSearchAndFilter(),
+                    Expanded(
+                      child: _isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : _filteredUsers.isEmpty
+                              ? _buildEmptyState()
+                              : _buildUsersTable(constraints),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
+          ),
+        );
+      },
     );
   }
 
@@ -206,7 +213,7 @@ class _ManageUsersPageState extends State<ManageUsersPage> {
     );
   }
 
-  Widget _buildUsersList() {
+  Widget _buildUsersTable(BoxConstraints constraints) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: _filteredUsers.length,

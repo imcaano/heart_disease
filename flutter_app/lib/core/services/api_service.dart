@@ -8,7 +8,7 @@ import 'dart:math';
 
 class ApiService {
   // Update this to match your local XAMPP setup
-  static const String baseUrl = 'http://192.168.18.12/heart_disease/api';
+  static const String baseUrl = 'http://192.168.56.1/heart_disease/api';
 
   final http.Client _client = http.Client();
 
@@ -138,7 +138,7 @@ class ApiService {
       print('Making prediction request with data: $predictionData');
 
       final response = await _client.post(
-        Uri.parse('http://192.168.18.12:5000/predict'), // Direct Python API
+        Uri.parse('http://192.168.56.1:5000/predict'), // Direct Python API
         headers: _headers,
         body: jsonEncode(predictionData),
       );

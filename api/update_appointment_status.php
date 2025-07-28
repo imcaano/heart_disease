@@ -69,9 +69,38 @@ try {
     $stmt = $pdo->prepare($update_query);
     $result = $stmt->execute($params);
 
+    // After updating the appointment status, if approved, send confirmation email
     if ($result && $stmt->rowCount() > 0) {
-    echo json_encode([
-        'success' => true, 
+        // Fetch appointment details to get user email
+        $stmt2 = $pdo->prepare("SELECT patient_email, patient_name, appointment_date, appointment_time FROM appointments WHERE id = ?");
+        $stmt2->execute([$appointment_id]);
+        $appointment = $stmt2->fetch(PDO::FETCH_ASSOC);
+        if ($status === 'approved' && $appointment) {
+            require_once dirname(__DIR__) . '/vendor/autoload.php';
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'heartdissease@gmail.com';
+                $mail->Password = 'kkpl lokn dulv pzvg';
+                $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+                $mail->setFrom('heartdissease@gmail.com', 'Heart Disease Clinic');
+                $mail->addAddress($appointment['patient_email'], $appointment['patient_name']);
+                $mail->isHTML(true);
+                $mail->Subject = 'Your Appointment Has Been Approved';
+                $mail->Body = '<p>Dear ' . htmlspecialchars($appointment['patient_name']) . ',</p>' .
+                    '<p>Your appointment on <b>' . htmlspecialchars($appointment['appointment_date']) . '</b> at <b>' . htmlspecialchars($appointment['appointment_time']) . '</b> has been <b>approved</b> by our admin.</p>' .
+                    '<p>Thank you for choosing our clinic.</p>' .
+                    '<p>Best regards,<br>Heart Disease Clinic Team</p>';
+                $mail->send();
+            } catch (Exception $e) {
+                error_log('PHPMailer error: ' . $mail->ErrorInfo);
+            }
+        }
+        echo json_encode([
+            'success' => true, 
             'message' => 'Appointment status updated successfully'
         ]);
     } else {

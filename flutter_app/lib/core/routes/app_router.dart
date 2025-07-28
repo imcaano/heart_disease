@@ -8,7 +8,6 @@ import '../../features/reports/presentation/pages/reports_page.dart';
 import '../../features/admin/presentation/pages/admin_dashboard_page.dart';
 import '../../features/admin/presentation/pages/manage_users_page.dart';
 import '../../features/admin/presentation/pages/admin_reports_page.dart';
-import '../../features/admin/presentation/pages/import_dataset_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/appointments/admin_appointments_screen.dart';
 import '../../features/appointments/user_appointments_screen.dart';
@@ -26,7 +25,6 @@ class AppRouter {
   static const String manageUsers = '/admin/users';
   static const String adminReports = '/admin/reports';
   static const String adminAppointments = '/admin/appointments';
-  static const String importDataset = '/admin/import';
 
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
@@ -102,12 +100,6 @@ class AppRouter {
       case adminAppointments:
         return MaterialPageRoute(
           builder: (_) => const AdminAppointmentsScreen(),
-          settings: settings,
-        );
-
-      case importDataset:
-        return MaterialPageRoute(
-          builder: (_) => const ImportDatasetPage(),
           settings: settings,
         );
 

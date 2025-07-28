@@ -4,7 +4,7 @@ import 'appointment_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppointmentService {
-  static const String baseUrl = 'http://192.168.18.12/heart_disease/api';
+  static const String baseUrl = 'http://192.168.56.1/heart_disease/api';
 
   // Book a new appointment
   static Future<Map<String, dynamic>> bookAppointment(

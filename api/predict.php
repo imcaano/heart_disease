@@ -103,6 +103,15 @@ try {
         send_json(['success' => false, 'message' => 'Invalid JSON data'], 400);
     }
 
+    // Determine user_id for saving prediction
+    session_start();
+    $user_id = 1; // Default fallback
+    if (isset($_SESSION['user']['id'])) {
+        $user_id = $_SESSION['user']['id'];
+    } elseif (isset($data['user_id'])) {
+        $user_id = $data['user_id'];
+    }
+
     // Check if this is a batch import or single prediction
     if (isset($data['data']) && is_array($data['data'])) {
         // Batch import mode
@@ -118,12 +127,11 @@ try {
                 if ($result['success']) {
                     // Store in database
                     $stmt = $pdo->prepare("INSERT INTO predictions (age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, prediction_result, user_id, prediction_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-                    
                     $stmt->execute([
                         $record['age'], $record['sex'], $record['cp'], $record['trestbps'], 
                         $record['chol'], $record['fbs'], $record['restecg'], $record['thalach'], 
                         $record['exang'], $record['oldpeak'], $record['slope'], $record['ca'], 
-                        $record['thal'], $result['prediction'], 1 // Default user_id for now
+                        $record['thal'], $result['prediction'], $user_id
                     ]);
 
                     $successful++;
@@ -155,12 +163,11 @@ try {
         if ($result['success']) {
             // Store in database
             $stmt = $pdo->prepare("INSERT INTO predictions (age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, prediction_result, user_id, prediction_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-            
             $stmt->execute([
                 $data['age'], $data['sex'], $data['cp'], $data['trestbps'], 
                 $data['chol'], $data['fbs'], $data['restecg'], $data['thalach'], 
                 $data['exang'], $data['oldpeak'], $data['slope'], $data['ca'], 
-                $data['thal'], $result['prediction'], 1 // Default user_id for now
+                $data['thal'], $result['prediction'], $user_id
             ]);
         }
 

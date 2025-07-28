@@ -1,6 +1,7 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.5",
-        "web3p/web3.php": "^0.1.6"
+        "web3p/web3.php": "^0.1.6",
+        "phpmailer/phpmailer": "^6.10"
     }
-} 
+}

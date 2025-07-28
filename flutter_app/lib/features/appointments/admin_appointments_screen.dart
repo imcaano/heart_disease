@@ -35,77 +35,83 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Appointments',
-            style: TextStyle(color: Colors.white)),
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadAppointments,
-            tooltip: 'Refresh',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Manage Appointments',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
+            elevation: 0,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: _loadAppointments,
+                tooltip: 'Refresh',
+              ),
+              IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: 'Logout',
+                onPressed: () async {
+                  await context.read<AuthProvider>().logout();
+                  if (mounted) {
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
+                  }
+                },
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () async {
-              // Log out and navigate to login
-              await context.read<AuthProvider>().logout();
-              if (mounted) {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
-              }
+          drawer: const AppDrawer(),
+          body: Consumer<AppointmentProvider>(
+            builder: (context, provider, child) {
+              final appointments = provider.appointments;
+              final stats = provider.stats;
+              final error = provider.error;
+
+              return RefreshIndicator(
+                onRefresh: _loadAppointments,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 32,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (stats.isNotEmpty) ...[
+                            SizedBox(
+                              height: constraints.maxWidth < 600 ? 320 : 180,
+                              child: _buildStatisticsCards(stats),
+                            ),
+                            const SizedBox(height: 24),
+                          ],
+                          _buildFilterSection(provider),
+                          const SizedBox(height: 16),
+                          if (provider.isLoading && _firstLoad)
+                            const Center(child: CircularProgressIndicator()),
+                          if (error != null && error.isNotEmpty)
+                            _buildErrorState(error),
+                          if (!provider.isLoading &&
+                              appointments.isEmpty &&
+                              (error == null || error.isEmpty))
+                            _buildEmptyState(),
+                          if (!provider.isLoading && appointments.isNotEmpty)
+                            _buildAppointmentsList(
+                                appointments, provider, constraints),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
             },
           ),
-        ],
-      ),
-      drawer: const AppDrawer(),
-      body: Consumer<AppointmentProvider>(
-        builder: (context, provider, child) {
-          final appointments = provider.appointments;
-          final stats = provider.stats;
-          final error = provider.error;
-
-          // Debug: Print raw API response
-          // ignore: avoid_print
-          print(
-              'APPOINTMENTS:  {appointments.length} | STATS: $stats | ERROR: $error');
-
-          return RefreshIndicator(
-            onRefresh: _loadAppointments,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (stats.isNotEmpty) ...[
-                    SizedBox(
-                      height: 320, // Adjust as needed for 2 rows
-                      child: _buildStatisticsCards(stats),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
-                  _buildFilterSection(provider),
-                  const SizedBox(height: 16),
-                  if (provider.isLoading && _firstLoad)
-                    const Center(child: CircularProgressIndicator()),
-                  if (error != null && error.isNotEmpty)
-                    _buildErrorState(error),
-                  if (!provider.isLoading &&
-                      appointments.isEmpty &&
-                      (error == null || error.isEmpty))
-                    _buildEmptyState(),
-                  if (!provider.isLoading && appointments.isNotEmpty)
-                    _buildAppointmentsList(appointments, provider),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+        );
+      },
     );
   }
 
@@ -281,21 +287,21 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
     );
   }
 
-  Widget _buildAppointmentsList(
-      List<Appointment> appointments, AppointmentProvider provider) {
+  Widget _buildAppointmentsList(List<Appointment> appointments,
+      AppointmentProvider provider, BoxConstraints constraints) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: appointments.length,
       itemBuilder: (context, index) {
         final appointment = appointments[index];
-        return _buildAppointmentCard(appointment, provider);
+        return _buildAppointmentCard(appointment, provider, constraints);
       },
     );
   }
 
-  Widget _buildAppointmentCard(
-      Appointment appointment, AppointmentProvider provider) {
+  Widget _buildAppointmentCard(Appointment appointment,
+      AppointmentProvider provider, BoxConstraints constraints) {
     final isHighRisk = appointment.predictionResult == 1;
     return Card(
       elevation: 2,
@@ -310,9 +316,14 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              runSpacing: 8,
               children: [
-                Expanded(
+                SizedBox(
+                  width: constraints.maxWidth < 600
+                      ? double.infinity
+                      : constraints.maxWidth * 0.6,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -391,10 +402,13 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
               ),
             ],
             const SizedBox(height: 16),
-            Row(
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
               children: [
                 if (appointment.status == 'pending') ...[
-                  Flexible(
+                  SizedBox(
+                    width: constraints.maxWidth < 600 ? double.infinity : 160,
                     child: ElevatedButton.icon(
                       onPressed: () =>
                           _updateStatus(appointment.id!, 'approved', provider),
@@ -410,8 +424,8 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Flexible(
+                  SizedBox(
+                    width: constraints.maxWidth < 600 ? double.infinity : 160,
                     child: ElevatedButton.icon(
                       onPressed: () =>
                           _updateStatus(appointment.id!, 'rejected', provider),
@@ -428,7 +442,8 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
                     ),
                   ),
                 ] else if (appointment.status == 'approved') ...[
-                  Flexible(
+                  SizedBox(
+                    width: constraints.maxWidth < 600 ? double.infinity : 200,
                     child: ElevatedButton.icon(
                       onPressed: () =>
                           _updateStatus(appointment.id!, 'completed', provider),
@@ -445,8 +460,8 @@ class _AdminAppointmentsScreenState extends State<AdminAppointmentsScreen> {
                     ),
                   ),
                 ],
-                const SizedBox(width: 8),
-                Flexible(
+                SizedBox(
+                  width: constraints.maxWidth < 600 ? double.infinity : 200,
                   child: OutlinedButton.icon(
                     onPressed: () =>
                         _showNotesDialog(context, appointment, provider),

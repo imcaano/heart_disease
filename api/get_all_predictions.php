@@ -104,11 +104,12 @@ try {
                 p.created_at,
                 u.username,
                 u.email,
-                a.address
+                MAX(a.address) as address
             FROM predictions p
             LEFT JOIN users u ON p.user_id = u.id
             LEFT JOIN appointments a ON a.prediction_id = p.id
             $whereClause 
+            GROUP BY p.user_id, p.age, p.sex, p.cp, p.trestbps, p.chol, p.fbs, p.restecg, p.thalach, p.exang, p.oldpeak, p.slope, p.ca, p.thal, p.prediction_result, p.created_at
             ORDER BY p.created_at DESC 
             LIMIT ?, ?";
     
