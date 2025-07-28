@@ -364,10 +364,68 @@
     <script>
     document.getElementById('profileForm').onsubmit = async function(e) {
         e.preventDefault();
-        // ... your AJAX logic ...
-        // On success:
-        document.getElementById('passwordSuccessAlert').style.display = 'block';
-        setTimeout(() => { document.getElementById('passwordSuccessAlert').style.display = 'none'; }, 4000);
+        
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        
+        // Check if password fields are filled
+        if (data.current_password && data.new_password) {
+            // Update password
+            try {
+                const response = await fetch('api/update_password.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_password: data.current_password,
+                        new_password: data.new_password,
+                        confirm_password: data.new_password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('passwordSuccessAlert').style.display = 'block';
+                    setTimeout(() => { 
+                        document.getElementById('passwordSuccessAlert').style.display = 'none'; 
+                    }, 4000);
+                    
+                    // Clear password fields
+                    e.target.current_password.value = '';
+                    e.target.new_password.value = '';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Network error: ' + error.message);
+            }
+        } else {
+            // Update profile info only
+            try {
+                const response = await fetch('api/update_profile.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: data.username,
+                        email: data.email
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Profile updated successfully!');
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Network error: ' + error.message);
+            }
+        }
     };
     </script>
 </body>

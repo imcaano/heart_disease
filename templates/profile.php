@@ -228,7 +228,7 @@ if (!isset($_SESSION['user'])) {
             submitBtn.disabled = true;
             
             try {
-                const response = await fetch('index.php?route=update_profile', {
+                const response = await fetch('api/update_profile.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -288,14 +288,15 @@ if (!isset($_SESSION['user'])) {
             submitBtn.disabled = true;
             
             try {
-                const response = await fetch('index.php?route=update_password', {
+                const response = await fetch('api/update_password.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         current_password: currentPassword,
-                        new_password: newPassword
+                        new_password: newPassword,
+                        confirm_password: confirmPassword
                     })
                 });
 

@@ -317,7 +317,7 @@ switch ($route) {
         break;
         
     case 'update_password':
-        require_once 'api/update_user.php';
+        require_once 'api/update_password.php';
         break;
         
     case 'logout':
